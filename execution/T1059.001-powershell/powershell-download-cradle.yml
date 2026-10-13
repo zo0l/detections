@@ -1,0 +1,32 @@
+title: PowerShell Download Cradle
+status: experimental
+description: Detects PowerShell downloading and executing code in memory via IEX and WebClient or Invoke-WebRequest
+author: Abdallah
+date: 2026-10-14
+tags:
+  - attack.execution
+  - attack.t1059.001
+  - attack.command_and_control
+  - attack.t1105
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_img:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+  selection_download:
+    CommandLine|contains:
+      - 'DownloadString'
+      - 'DownloadFile'
+      - 'Net.WebClient'
+      - 'Invoke-WebRequest'
+  selection_exec:
+    CommandLine|contains:
+      - 'IEX'
+      - 'Invoke-Expression'
+  condition: all of selection_*
+falsepositives:
+  - Software installers that use this pattern (e.g. Chocolatey install script)
+level: high

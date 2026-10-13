@@ -1,0 +1,4 @@
+index=* EventCode=1 (Image="*\\powershell.exe" OR Image="*\\pwsh.exe")
+  (CommandLine="*DownloadString*" OR CommandLine="*DownloadFile*" OR CommandLine="*Net.WebClient*" OR CommandLine="*Invoke-WebRequest*")
+  (CommandLine="*IEX*" OR CommandLine="*Invoke-Expression*")
+| table _time, host, User, ParentImage, CommandLine
